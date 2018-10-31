@@ -1,5 +1,8 @@
 package com.headerits.entity;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,17 +10,22 @@ public class SysUser implements Serializable {
     /**
      * 主键id,自增
      */
+    @Min(33)
+    @NotNull
     private Integer id;
-
-    /**
-     * 用户名
-     */
-    private String userName;
 
     /**
      * 密码
      */
+    @Size(min = 32)
+    @NotNull(message = "{sysuser.password.error}")
     private String password;
+
+    /**
+     * 用户名
+     */
+    @NotNull
+    private String userName;
 
     /**
      * 创建时间
@@ -38,6 +46,7 @@ public class SysUser implements Serializable {
 
     /**
      * 主键id,自增
+     *
      * @return id 主键id,自增
      */
     public Integer getId() {
@@ -46,6 +55,7 @@ public class SysUser implements Serializable {
 
     /**
      * 主键id,自增
+     *
      * @param id 主键id,自增
      */
     public void setId(Integer id) {
@@ -54,6 +64,7 @@ public class SysUser implements Serializable {
 
     /**
      * 用户名
+     *
      * @return user_name 用户名
      */
     public String getUserName() {
@@ -62,6 +73,7 @@ public class SysUser implements Serializable {
 
     /**
      * 用户名
+     *
      * @param userName 用户名
      */
     public void setUserName(String userName) {
@@ -70,6 +82,7 @@ public class SysUser implements Serializable {
 
     /**
      * 密码
+     *
      * @return password 密码
      */
     public String getPassword() {
@@ -78,6 +91,7 @@ public class SysUser implements Serializable {
 
     /**
      * 密码
+     *
      * @param password 密码
      */
     public void setPassword(String password) {
@@ -86,6 +100,7 @@ public class SysUser implements Serializable {
 
     /**
      * 创建时间
+     *
      * @return create_time 创建时间
      */
     public Date getCreateTime() {
@@ -94,6 +109,7 @@ public class SysUser implements Serializable {
 
     /**
      * 创建时间
+     *
      * @param createTime 创建时间
      */
     public void setCreateTime(Date createTime) {
@@ -102,6 +118,7 @@ public class SysUser implements Serializable {
 
     /**
      * 修改时间
+     *
      * @return update_time 修改时间
      */
     public Date getUpdateTime() {
@@ -110,6 +127,7 @@ public class SysUser implements Serializable {
 
     /**
      * 修改时间
+     *
      * @param updateTime 修改时间
      */
     public void setUpdateTime(Date updateTime) {
@@ -118,6 +136,7 @@ public class SysUser implements Serializable {
 
     /**
      * 数据有效(0:无效;1:有效)
+     *
      * @return enable 数据有效(0:无效;1:有效)
      */
     public Byte getEnable() {
@@ -126,6 +145,7 @@ public class SysUser implements Serializable {
 
     /**
      * 数据有效(0:无效;1:有效)
+     *
      * @param enable 数据有效(0:无效;1:有效)
      */
     public void setEnable(Byte enable) {
@@ -161,11 +181,11 @@ public class SysUser implements Serializable {
         }
         SysUser other = (SysUser) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getEnable() == null ? other.getEnable() == null : this.getEnable().equals(other.getEnable()));
+                && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
+                && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
+                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+                && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+                && (this.getEnable() == null ? other.getEnable() == null : this.getEnable().equals(other.getEnable()));
     }
 
     @Override

@@ -17,7 +17,24 @@
     <mvc:default-servlet-handler/>
 
     <!--启动注解支持-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven validator="validator"/>
+
+    <!--配置校验器-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="cacheSeconds" value="120"/>
+        <property name="basenames">
+            <array>
+                <value>validator/error</value>
+            </array>
+        </property>
+    </bean>
+
+    <!--配置全局异常处理器-->
+    <bean id="globalExceptionHandler" class="com.headerits.exception.GlobalExceptionHandler"/>
 
     <!--配置视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

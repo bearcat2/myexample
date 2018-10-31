@@ -4,6 +4,8 @@
 # Log file
 *.log
 *.iml
+rebel.xml
+rebel-remote.xml
 
 # BlueJ files
 *.ctxt

@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/jms
        http://www.springframework.org/schema/jms/spring-jms.xsd">
 
-    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <!--<bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="tcp://192.168.1.7:20490"/>
     </bean>
 
@@ -25,8 +25,8 @@
         <property name="connectionFactory" ref="cachingConnectionFactory"/>
     </bean>
 
-    <!--启动jms 注解 -->
+    &lt;!&ndash;启动jms 注解 &ndash;&gt;
     <jms:listener-container connection-factory="cachingConnectionFactory" destination-type="queue">
         <jms:listener destination="myqueue" ref="activemqConsumer"/>
-    </jms:listener-container>
+    </jms:listener-container>-->
 </beans>
