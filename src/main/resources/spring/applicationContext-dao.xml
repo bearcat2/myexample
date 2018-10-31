@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 配置数据源 使用阿里 druid 数据库连接池 访问监控页面： http://ip:port/projectName/druid/index.html -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 数据库驱动 -->
+        <property name="driverClassName" value="${hd.jdbc.driverClassName}"/>
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${hd.jdbc.url}"/>
+        <property name="username" value="${hd.jdbc.username}"/>
+        <property name="password" value="${hd.jdbc.password}"/>
+
+        <!-- 配置初始化大小、最小、最大连接数 -->
+        <property name="initialSize" value="${hd.pool.initialSize}"/>
+        <property name="minIdle" value="${hd.pool.minIdle}"/>
+        <property name="maxActive" value="${hd.pool.maxActive}"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${hd.pool.maxWait}"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${hd.pool.timeBetweenEvictionRunsMillis}"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${hd.pool.minEvictableIdleTimeMillis}"/>
+
+        <property name="validationQuery" value="${hd.pool.validationQuery}"/>
+        <property name="testWhileIdle" value="${hd.pool.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${hd.pool.testOnBorrow}"/>
+        <property name="testOnReturn" value="${hd.pool.testOnReturn}"/>
+
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="${hd.pool.poolPreparedStatements}"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${hd.pool.maxOpenPreparedStatements}"/>
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="${hd.pool.filters}"/>
+    </bean>
+
+    <!-- 配置SqlSessionFactoryBean -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--加载mybatis的核心配置文件-->
+        <property name="configLocation" value="classpath:/mybatis/mybatisConfig.xml"/>
+        <!--给下面配置的包及子孙包下的实体类启用别名，默认别名为类名(不区分大小写)-->
+        <property name="typeAliasesPackage" value="com.headerits.pojo"/>
+        <property name="mapperLocations" value="classpath*:mybatis/mapping/**/*.xml"/>
+    </bean>
+
+    <!--配置Mapper扫描器,批量扫描com.headerits.dao包和子孙包下的接口生成相应的代理对象-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.headerits.mapper"/>
+    </bean>
+</beans>
+

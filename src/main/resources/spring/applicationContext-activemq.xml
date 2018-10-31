@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jms
+       http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://192.168.1.7:20490"/>
+    </bean>
+
+    <bean id="cachingConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+        <property name="sessionCacheSize" value="100"/>
+    </bean>
+
+    <bean id="activeMQQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="myqueue"/>
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="defaultDestination" ref="activeMQQueue"/>
+        <property name="connectionFactory" ref="cachingConnectionFactory"/>
+    </bean>
+
+    <!--启动jms 注解 -->
+    <jms:listener-container connection-factory="cachingConnectionFactory" destination-type="queue">
+        <jms:listener destination="myqueue" ref="activemqConsumer"/>
+    </jms:listener-container>
+</beans>
