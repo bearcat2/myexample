@@ -27,7 +27,7 @@ public class SysUserMapperTest extends BaseMapperTest {
     public void insert() throws Exception {
 
         SysUser sysUser = new SysUser();
-        sysUser.setUserName("张三");
+        //sysUser.setUserName("张三");
         //sysUser.setPassword();
     }
 

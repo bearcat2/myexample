@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
  * @version: 1.0
  */
 @Slf4j
-public class GlobalExceptionHandler implements HandlerExceptionResolver{
+public class GlobalExceptionHandler implements HandlerExceptionResolver {
 
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
-        log.info("系统发生异常了" + e);
+        log.info("系统发生异常了", e);
         return null;
     }
 }

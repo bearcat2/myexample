@@ -1,30 +1,27 @@
 package com.headerits.entity;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SysUser implements Serializable {
     /**
      * 主键id,自增
      */
-    @Min(33)
-    @NotNull
+    @JsonProperty("userId")
     private Integer id;
 
     /**
      * 密码
      */
-    @Size(min = 32)
-    @NotNull(message = "{sysuser.password.error}")
     private String password;
 
     /**
      * 用户名
      */
-    @NotNull
     private String userName;
 
     /**

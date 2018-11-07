@@ -1,13 +1,13 @@
 package com.headerits.web.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import com.headerits.entity.SysUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -20,10 +20,6 @@ import java.util.UUID;
  */
 @Controller
 public class DemoController {
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
 
     @RequestMapping(value = "/demo1")
     public String demo1(HttpSession session) {
@@ -49,5 +45,23 @@ public class DemoController {
         session.invalidate();
         return "repeat";
     }
+
+    @RequestMapping(value = "/demo4")
+    @ResponseBody
+    public String demo4() {
+        System.out.println("被调用了");
+        return "中文测试";
+    }
+
+    @RequestMapping(value = "/demo5")
+    @ResponseBody
+    public SysUser demo5() {
+        SysUser sysUser = new SysUser();
+        sysUser.setId(2);
+        sysUser.setUserName("中文测试");
+        sysUser.setCreateTime(new Date());
+        return sysUser;
+    }
+
 
 }
