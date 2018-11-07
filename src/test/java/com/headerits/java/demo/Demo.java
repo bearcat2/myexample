@@ -1,10 +1,12 @@
 package com.headerits.java.demo;
 
+import com.headerits.util.DateUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -66,5 +68,15 @@ public class Demo {
     public void test6() throws Exception{
         //e10adc3949ba59abbe56e057f20f883e
         System.out.println(DigestUtils.md5Hex("123456").equalsIgnoreCase("e10adc3949ba59abbe56e057f20f883e"));
+    }
+
+    @Test
+    public void test7() throws Exception{
+        //22:54:05.446
+
+        // 2018-11-07 23:25:00
+        Date date = new Date(1541604300000L);
+        String string = DateUtils.date2String(date, DateUtils.COMMON_DATETIME);
+        System.out.println(string);
     }
 }

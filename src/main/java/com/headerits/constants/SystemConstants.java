@@ -29,4 +29,6 @@ public class SystemConstants {
      * 一般表示返回值 失败
      */
     public static final String FAIL = "fail";
+
+    public static final String CURRENT_USER = "currentUser";
 }
