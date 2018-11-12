@@ -1,8 +1,12 @@
 package com.headerits.exception;
 
+import com.headerits.common.Result;
+import com.headerits.enumer.CodeMsgEnum;
+import com.headerits.util.RequestParamUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,11 +20,17 @@ import javax.servlet.http.HttpServletResponse;
  * @version: 1.0
  */
 @Slf4j
-public class GlobalExceptionHandler implements HandlerExceptionResolver {
+@ControllerAdvice
+@ResponseBody
+public class GlobalExceptionHandler {
 
-    @Override
-    public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+    @ExceptionHandler(Exception.class)
+    public Result resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         log.info("系统发生异常了", e);
-        return null;
+
+        String requestParams = RequestParamUtils.getRequestParams(httpServletRequest);
+        log.info("请求参数 = {}", requestParams);
+
+        return Result.error(CodeMsgEnum.SERVER_ERROR);
     }
 }

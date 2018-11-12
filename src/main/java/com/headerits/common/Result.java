@@ -1,7 +1,8 @@
 package com.headerits.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.headerits.enumer.CodeMsgEnum;
-import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
 
@@ -13,7 +14,8 @@ import java.io.Serializable;
  * @author: zhongzhipeng
  * @version: 1.0
  */
-@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
 public class Result implements Serializable {
 
     private int code;
@@ -31,17 +33,19 @@ public class Result implements Serializable {
     private Result(CodeMsgEnum codeMsgEnum) {
         this.code = codeMsgEnum.getCode();
         this.msg = codeMsgEnum.getMsg();
+        this.data = "";
+    }
+
+    public static Result success() {
+        return success("");
     }
 
     public static Result success(Object data) {
         return new Result(data);
     }
 
-    public static Result success() {
-        return success(null);
-    }
-
     public static Result error(CodeMsgEnum codeMsgEnum) {
         return new Result(codeMsgEnum);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.headerits.web.controller;
+package com.headerits.web.controller.demo;
 
 import com.headerits.scheduled.DemoScheduled;
 import com.headerits.service.DemoService;

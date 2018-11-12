@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,21 +26,32 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/validator")
+@RequestMapping("/validator/")
 public class ValidatorController {
 
-    @RequestMapping("/addSysUser")
-    public Result addSysUser(@Validated SysUser sysUser ,BindingResult bindingResult) throws Exception {
+    @PostMapping("addSysUser")
+    public Result addSysUser(@Validated SysUser sysUser, BindingResult bindingResult) throws Exception {
         Map<String, String> errorMap = new LinkedHashMap<>();
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
             for (FieldError fieldError : fieldErrors) {
                 errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
         }
         log.info("错误消息: {}", JSON.toJSONString(errorMap));
+        return Result.success(errorMap);
+    }
+
+    @PostMapping("jsonData")
+    public Result jsonData(@RequestBody SysUser sysUser) {
+        log.info("sysUser = {}", sysUser);
+        double a = 1 / 0;
         return Result.success();
     }
 
-
+    @RequestMapping("keyValueData")
+    public Result keyValueData(SysUser sysUser) {
+        log.info("sysUser = {}", sysUser);
+        return Result.success();
+    }
 }
