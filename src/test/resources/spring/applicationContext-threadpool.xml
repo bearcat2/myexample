@@ -15,6 +15,8 @@
         <property name="maxPoolSize" value="100"/>
         <!-- 线程池所使用的缓冲队列，一般需要设置值>=notifyScheduledMainExecutor.maxNum；默认为Integer.MAX_VALUE -->
         <property name="queueCapacity" value="1000"/>
+        <!-- 异步线程名字前缀 -->
+        <property name="threadNamePrefix" value="zzp-"/>
         <!-- 线程池维护线程所允许的空闲时间，默认为60s -->
         <property name="keepAliveSeconds" value="120"/>
         <!-- 线程池对拒绝任务（无线程可用）的处理策略，目前只支持AbortPolicy、CallerRunsPolicy；默认为后者 -->
@@ -31,5 +33,5 @@
     <task:annotation-driven executor="threadPoolTaskExecutor" scheduler="scheduler"/>
 
     <!--配置spring 调度器-->
-    <task:scheduler id="scheduler"  pool-size="10"/>
+    <task:scheduler id="scheduler" pool-size="10"/>
 </beans>

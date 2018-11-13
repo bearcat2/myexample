@@ -1,5 +1,6 @@
 package com.headerits.java.demo1;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.text.MessageFormat;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @author: zhongzhipeng
  * @version: 1.0
  */
+@Slf4j
 public class Demo {
 
     @Test
@@ -25,6 +27,7 @@ public class Demo {
     public void test1() throws Exception {
         String format = MessageFormat.format("{0,date,yyyy-MM-dd HH:mm:ss}", new Date());
         System.out.println(format);
+        log.info(format);
     }
 
     @Test
