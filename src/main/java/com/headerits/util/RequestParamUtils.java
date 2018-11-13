@@ -1,10 +1,8 @@
 package com.headerits.util;
 
+import org.springframework.http.MediaType;
+
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -25,18 +23,17 @@ public class RequestParamUtils {
      * @return 返回json格式字符串 {key:value}
      */
     public static String getRequestParams(HttpServletRequest httpServletRequest) {
-        try {
-            MyRequestWrapper myRequestWrapper = new MyRequestWrapper(httpServletRequest);
-            return myRequestWrapper.getBody();
-        } catch (IOException e) {
-            e.printStackTrace();
+        String contentType = httpServletRequest.getContentType();
+        if (MediaType.APPLICATION_JSON_VALUE.equalsIgnoreCase(contentType)) {
+            // 获取json类型参数
+            return getJsonRequestParams(httpServletRequest);
         }
-
-        return null;
-        //if (MediaType.APPLICATION_JSON_VALUE.equalsIgnoreCase(httpServletRequest.getContentType())) {
-        //    return getJsonRequestParams(httpServletRequest);
-        //}
-        //return getKeyValueRequestParams(httpServletRequest);
+        if (MediaType.MULTIPART_FORM_DATA_VALUE.equals(contentType)) {
+            // 二进制流不记录请求参数,直接返回空
+            return null;
+        }
+        // 走到这没有返回,默认返回 key - value类型数据参数
+        return getKeyValueRequestParams(httpServletRequest);
     }
 
     public static String getKeyValueRequestParams(HttpServletRequest httpServletRequest) {
@@ -46,8 +43,12 @@ public class RequestParamUtils {
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
             String[] values = entry.getValue();
             String value = values.length > 1 ? Arrays.toString(values) : values[0];
-            stringBuilder.append(entry.getKey()).append(":").append("\"")
-                    .append(value).append("\"").append(" ,");
+            stringBuilder.append(entry.getKey())
+                    .append(" : ")
+                    .append("\"")
+                    .append(value)
+                    .append("\"")
+                    .append(" ,");
         }
         if (stringBuilder.indexOf(",") != -1) {
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
@@ -57,29 +58,7 @@ public class RequestParamUtils {
     }
 
     public static String getJsonRequestParams(HttpServletRequest httpServletRequest) {
-        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = null;
-        try {
-            InputStream inputStream = httpServletRequest.getInputStream();
-            if (inputStream != null) {
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                char[] charBuffer = new char[128];
-                int bytesRead = -1;
-                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
-                    stringBuilder.append(charBuffer, 0, bytesRead);
-                }
-            } else {
-                stringBuilder.append("{}");
-            }
-        } catch (IOException ex) {
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                }
-            }
-        }
-        return stringBuilder.toString();
+        MyRequestWrapper myRequestWrapper = (MyRequestWrapper) httpServletRequest;
+        return myRequestWrapper.getBody();
     }
 }
